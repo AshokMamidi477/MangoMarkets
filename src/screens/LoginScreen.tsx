@@ -1,22 +1,27 @@
 
 // src/screens/LoginScreen.tsx
+// src/screens/LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { saveAuth } from '../utils/authStorage';
 
 type Props = {
-  onLogin?: (email: string, password: string) => void;
+  onLogin: () => void;
 };
 
 const LoginScreen: React.FC<Props> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleLogin = async () => {
+    // TODO: API validation
+    await saveAuth(); // persist login
+    onLogin();
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>MangoMarkets</Text>
-
-      {/* Optional illustration */}
-      {/* <Image source={require('../assets/login-illustration-dark.png')} style={styles.image} resizeMode="contain" /> */}
 
       <TextInput
         placeholder="Email"
@@ -24,7 +29,6 @@ const LoginScreen: React.FC<Props> = ({ onLogin }) => {
         style={styles.input}
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
         autoCapitalize="none"
       />
       <TextInput
@@ -36,25 +40,15 @@ const LoginScreen: React.FC<Props> = ({ onLogin }) => {
         secureTextEntry
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          // TODO: validate, call API, save token, etc.
-          onLogin?.(email, password);
-        }}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-
-      <View style={styles.linksContainer}>
-        <Text style={styles.linkText}>Forgot Password?</Text>
-        <Text style={styles.linkText}>Sign Up</Text>
-      </View>
     </View>
   );
 };
 
 export default LoginScreen;
+
 
 // (styles from your snippet)
 const styles = StyleSheet.create({
