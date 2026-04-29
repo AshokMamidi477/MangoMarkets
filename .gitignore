@@ -1,0 +1,11 @@
+node_modules/
+.gradle/
+build/
+*.hprof
+android/app/build/
+ios/Pods/
+ios/build/
+*.jsbundle
+.metro-health-check*
+.env
+.env.local
